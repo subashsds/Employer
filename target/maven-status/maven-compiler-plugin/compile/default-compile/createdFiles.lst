@@ -1,0 +1,6 @@
+com\slavic\repo\EmployeeRepo.class
+com\slavic\dto\ErrorMsg.class
+com\slavic\controller\EmployeeController.class
+com\slavic\entity\Employee.class
+com\slavic\config\AppConfig.class
+com\slavic\EmployeeApplication.class
