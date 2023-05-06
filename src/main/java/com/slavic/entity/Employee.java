@@ -9,8 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "users_tbl")
+//@Entity
+//@Table(name = "users_tbl")
 public class Employee  implements Serializable{
 	    /**
 	 * 

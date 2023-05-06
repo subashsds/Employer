@@ -26,9 +26,6 @@ public class EmployeeController {
 	RestTemplate restTemplate;
 	
 	@Autowired
-	EmployeeRepo employeeRepo;
-	
-	@Autowired
 	EmpService empService;
 	
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -36,9 +33,6 @@ public class EmployeeController {
 	@GetMapping(value = "/employee_details")
 	public String empDetails() {
 		LOG.info("employee_details !!!!!!!!!!");
-		
-		employeeRepo.findAll();
-		
 		String baseUrl = "http://localhost:8081/participant_details";
 		String response = (String) restTemplate.exchange(baseUrl, HttpMethod.GET, null, String.class).getBody();
 		LOG.info("The response recieved by method1 is " + response);

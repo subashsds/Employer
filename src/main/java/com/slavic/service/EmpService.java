@@ -19,8 +19,6 @@ import com.slavic.dto.ErrorMsg;
 import com.slavic.dto.Response;
 import com.slavic.dto.req.Login;
 
-import javassist.tools.web.BadHttpRequest;
-
 @Service
 public class EmpService {
 
@@ -49,19 +47,26 @@ public class EmpService {
 		if("success".equals(res.getMessage())) {	
 			LOG.info(" token generated successfully !");
 			//sendEmail("email sent successfuly !!!");
-		
-			res.setMessage("success");
+
 			String baseUrl = "http://localhost:8085/email/sendEmail";
 			String response1 = (String) restTemplate.exchange(baseUrl, HttpMethod.POST, request, String.class).getBody();
-
+			LOG.info(" Sent Email successfully !");
 			String baseUrlMessage = "http://localhost:8086/message/send-otp-message";
 			String response2 = (String) restTemplate.exchange(baseUrlMessage, HttpMethod.POST, request, String.class).getBody();
-
-			if("failed".equals(response1)|| "failed".equals(response2) ) {
-
+			LOG.info(" Sent Email successfully !");
+			if("failed".equals(response1)) {
+				LOG.info(" Sent Email Failed !");
 				res.setMessage("failed");
 				res.setError(error(606,"Error"));
 				return res;
+			}
+			
+			if("failed".equals(response2)) {
+				LOG.info(" Sent Message Failed !");
+				res.setMessage("failed");
+				res.setError(error(606,"Error"));
+				return res;
+				
 			}
 
 		}else {
