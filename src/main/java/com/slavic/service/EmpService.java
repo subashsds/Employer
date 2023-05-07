@@ -9,6 +9,7 @@ import javax.ws.rs.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,6 +27,9 @@ public class EmpService {
 
 	@Autowired
 	RestTemplate restTemplate;
+	
+	@Value("${base_url}")
+	String baseUrl;
 
 	public Response<?> login(Login login){
 
@@ -36,9 +40,10 @@ public class EmpService {
 		HttpEntity<HashMap<String, String>> request = new HttpEntity<HashMap<String, String>>(map);
 		
 		try {
-			
-			String baseUrl = "http://localhost:8083/auth/getAuthToken";
-			res = restTemplate.exchange(baseUrl, HttpMethod.POST, request,Response.class).getBody();
+			//http://localhost
+			String baseUrl1 = baseUrl+":8083/auth/getAuthToken";
+			//String baseUrl1 = "http://localhost:8083/auth/getAuthToken";
+			res = restTemplate.exchange(baseUrl1, HttpMethod.POST, request,Response.class).getBody();
 
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -47,11 +52,12 @@ public class EmpService {
 		if("success".equals(res.getMessage())) {	
 			LOG.info(" token generated successfully !");
 			//sendEmail("email sent successfuly !!!");
-
-			String baseUrl = "http://localhost:8085/email/sendEmail";
-			String response1 = (String) restTemplate.exchange(baseUrl, HttpMethod.POST, request, String.class).getBody();
+			String baseUrl1 = baseUrl+":8085/email/sendEmail";
+			//String baseUrl1 = "http://localhost:8085/email/sendEmail";
+			String response1 = (String) restTemplate.exchange(baseUrl1, HttpMethod.POST, request, String.class).getBody();
 			LOG.info(" Sent Email successfully !");
-			String baseUrlMessage = "http://localhost:8086/message/send-otp-message";
+			String baseUrlMessage = baseUrl+":8086/message/send-otp-message";
+			//String baseUrlMessage = "http://localhost:8086/message/send-otp-message";
 			String response2 = (String) restTemplate.exchange(baseUrlMessage, HttpMethod.POST, request, String.class).getBody();
 			LOG.info(" Sent Email successfully !");
 			if("failed".equals(response1)) {
